@@ -1,0 +1,19 @@
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)            Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     

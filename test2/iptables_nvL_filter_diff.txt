@@ -1,0 +1,34 @@
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0   
+                                                              >     0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *      
+                                                              >     0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 DOCKER     all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0  
+                                                              >     0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0   
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0     0 ACCEPT     all  --  *      *       0.0.0.0/0     
+                                                              >
+                                                              > Chain DOCKER (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >
+                                                              > Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docke
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     
+                                                              >
+                                                              > Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DROP       all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     
+                                                              >
+                                                              > Chain DOCKER-USER (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     

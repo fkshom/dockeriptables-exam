@@ -1,0 +1,84 @@
+```sh
+# sdiff iptables_nvL_filter_{before,after}.txt
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0   
+                                                              >     0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *      
+                                                              >     0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 DOCKER     all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0  
+                                                              >     0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0   
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >
+                                                              > Chain DOCKER (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >
+                                                              > Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docke
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     
+                                                              >
+                                                              > Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DROP       all  --  *      docker0  0.0.0.0/0    
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     
+                                                              >
+                                                              > Chain DOCKER-USER (1 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 RETURN     all  --  *      *       0.0.0.0/0     
+```
+
+```sh
+# sdiff iptables_nvL_nat_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER     all  --  *      *       0.0.0.0/0     
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 DOCKER     all  --  *      *       0.0.0.0/0     
+
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)            Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/
+                                                              >
+                                                              > Chain DOCKER (2 references)
+                                                              >  pkts bytes target     prot opt in     out     source        
+                                                              >     0     0 RETURN     all  --  docker0 *       0.0.0.0/0    
+```
+
+```sh
+# sdiff iptables_nvL_mangle_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)            Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+```
+
+```sh
+# sdiff iptables_nvL_raw_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                 Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source            pkts bytes target     prot opt in     out     source        
+```
+

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+set -x
+
+test_name=test1
+
+mkdir -p "./${test_name}"
+rm -f "./${test_name}/*"
+
+(
+    cd "${test_name}"
+    sudo systemctl stop docker
+    ../reset_iptables.sh
+    ../get_iptables.sh before
+    sudo systemctl start docker
+    ../get_iptables.sh after
+
+    sdiff iptables_nvL_filter_{before,after}.txt | expand -t 8 > iptables_nvL_filter_diff.txt
+    sdiff iptables_nvL_nat_{before,after}.txt    | expand -t 8 > iptables_nvL_nat_diff.txt
+    sdiff iptables_nvL_mangle_{before,after}.txt | expand -t 8 > iptables_nvL_mangle_diff.txt
+    sdiff iptables_nvL_raw_{before,after}.txt    | expand -t 8 > iptables_nvL_raw_diff.txt
+
+    result_filename=result.txt
+    (
+        echo '```sh'
+        echo "# sdiff iptables_nvL_filter_{before,after}.txt"
+        cat iptables_nvL_filter_diff.txt
+        echo '```'
+        echo
+        echo '```sh'
+        echo "# sdiff iptables_nvL_nat_{before,after}.txt"
+        cat iptables_nvL_nat_diff.txt
+        echo '```'
+        echo
+
+        echo '```sh'
+        echo "# sdiff iptables_nvL_mangle_{before,after}.txt"
+        cat iptables_nvL_mangle_diff.txt
+        echo '```'
+        echo
+
+        echo '```sh'
+        echo "# sdiff iptables_nvL_raw_{before,after}.txt"
+        cat iptables_nvL_raw_diff.txt
+        echo '```'
+        echo
+    ) > "${result_filename}"
+
+)
