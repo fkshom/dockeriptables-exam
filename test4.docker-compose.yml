@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  ubuntu:
+    image: ubuntu:20.04
+    command: /bin/sh -c "while :; do sleep 100; done"
+    ports:
+    - "4567:4567"

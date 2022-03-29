@@ -1,0 +1,24 @@
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)                             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER     all  --  *      *       0.0.0.0/0            0.              0     0 DOCKER     all  --  *      *       0.0.0.0/0            0.
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain OUTPUT (policy ACCEPT 1 packets, 49 bytes)                          |     Chain OUTPUT (policy ACCEPT 8 packets, 595 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER     all  --  *      *       0.0.0.0/0           !12              0     0 DOCKER     all  --  *      *       0.0.0.0/0           !12
+
+Chain POSTROUTING (policy ACCEPT 1 packets, 49 bytes)                     |     Chain POSTROUTING (policy ACCEPT 8 packets, 595 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+                                                                          >         0     0 MASQUERADE  all  --  *      !br-09bef16c1f3b  172.18.0.0/1
+    0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16                     0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16       
+    0     0 MASQUERADE  tcp  --  *      *       172.17.0.2           1              0     0 MASQUERADE  tcp  --  *      *       172.17.0.2           1
+                                                                          >         0     0 MASQUERADE  tcp  --  *      *       172.18.0.2           1
+
+Chain DOCKER (2 references)                                                     Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+                                                                          >         0     0 RETURN     all  --  br-09bef16c1f3b *       0.0.0.0/0     
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0              0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0
+    0     0 DNAT       tcp  --  !docker0 *       0.0.0.0/0                          0     0 DNAT       tcp  --  !docker0 *       0.0.0.0/0            
+                                                                          >         0     0 DNAT       tcp  --  !br-09bef16c1f3b *       0.0.0.0/0    

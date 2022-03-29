@@ -1,0 +1,87 @@
+```sh
+# sdiff iptables_nvL_filter_{before,after}.txt
+Chain INPUT (policy ACCEPT 8 packets, 552 bytes)                          |     Chain INPUT (policy ACCEPT 17 packets, 2223 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0                          0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0            
+    0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/              0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/
+    0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0              0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0
+    0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0              0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0
+    0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0                         0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0           
+    0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0                          0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0            
+
+Chain OUTPUT (policy ACCEPT 8 packets, 552 bytes)                         |     Chain OUTPUT (policy ACCEPT 18 packets, 2263 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain DOCKER (1 references)                                                     Chain DOCKER (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+                                                                          >         0     0 ACCEPT     tcp  --  !docker0 docker0  0.0.0.0/0           
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)                                   Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0              0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
+
+Chain DOCKER-ISOLATION-STAGE-2 (1 references)                                   Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DROP       all  --  *      docker0  0.0.0.0/0            0              0     0 DROP       all  --  *      docker0  0.0.0.0/0            0
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
+
+Chain DOCKER-USER (1 references)                                                Chain DOCKER-USER (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
+```
+
+```sh
+# sdiff iptables_nvL_nat_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)                             Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER     all  --  *      *       0.0.0.0/0            0.              0     0 DOCKER     all  --  *      *       0.0.0.0/0            0.
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)                                  Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)                           |     Chain OUTPUT (policy ACCEPT 1 packets, 49 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER     all  --  *      *       0.0.0.0/0           !12              0     0 DOCKER     all  --  *      *       0.0.0.0/0           !12
+
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)                      |     Chain POSTROUTING (policy ACCEPT 1 packets, 49 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16                     0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16       
+                                                                          >         0     0 MASQUERADE  tcp  --  *      *       172.17.0.2           1
+
+Chain DOCKER (2 references)                                                     Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0              0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0
+                                                                          >         0     0 DNAT       tcp  --  !docker0 *       0.0.0.0/0            
+```
+
+```sh
+# sdiff iptables_nvL_mangle_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 25 packets, 1585 bytes)                   |     Chain PREROUTING (policy ACCEPT 56 packets, 6067 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain INPUT (policy ACCEPT 25 packets, 1585 bytes)                        |     Chain INPUT (policy ACCEPT 56 packets, 6067 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain OUTPUT (policy ACCEPT 25 packets, 1585 bytes)                       |     Chain OUTPUT (policy ACCEPT 57 packets, 6107 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain POSTROUTING (policy ACCEPT 25 packets, 1585 bytes)                  |     Chain POSTROUTING (policy ACCEPT 58 packets, 6156 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+```
+
+```sh
+# sdiff iptables_nvL_raw_{before,after}.txt
+Chain PREROUTING (policy ACCEPT 23 packets, 1466 bytes)                   |     Chain PREROUTING (policy ACCEPT 54 packets, 5948 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain OUTPUT (policy ACCEPT 23 packets, 1466 bytes)                       |     Chain OUTPUT (policy ACCEPT 55 packets, 5988 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+```
+

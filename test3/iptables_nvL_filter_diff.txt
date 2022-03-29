@@ -1,0 +1,32 @@
+Chain INPUT (policy ACCEPT 8 packets, 552 bytes)                          |     Chain INPUT (policy ACCEPT 17 packets, 2223 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)                                Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0                          0     0 DOCKER-USER  all  --  *      *       0.0.0.0/0            
+    0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/              0     0 DOCKER-ISOLATION-STAGE-1  all  --  *      *       0.0.0.0/
+    0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0              0     0 ACCEPT     all  --  *      docker0  0.0.0.0/0            0
+    0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0              0     0 DOCKER     all  --  *      docker0  0.0.0.0/0            0
+    0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0                         0     0 ACCEPT     all  --  docker0 !docker0  0.0.0.0/0           
+    0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0                          0     0 ACCEPT     all  --  docker0 docker0  0.0.0.0/0            
+
+Chain OUTPUT (policy ACCEPT 8 packets, 552 bytes)                         |     Chain OUTPUT (policy ACCEPT 18 packets, 2263 bytes)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+
+Chain DOCKER (1 references)                                                     Chain DOCKER (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+                                                                          >         0     0 ACCEPT     tcp  --  !docker0 docker0  0.0.0.0/0           
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)                                   Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0              0     0 DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
+
+Chain DOCKER-ISOLATION-STAGE-2 (1 references)                                   Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 DROP       all  --  *      docker0  0.0.0.0/0            0              0     0 DROP       all  --  *      docker0  0.0.0.0/0            0
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
+
+Chain DOCKER-USER (1 references)                                                Chain DOCKER-USER (1 references)
+ pkts bytes target     prot opt in     out     source               de           pkts bytes target     prot opt in     out     source               de
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.              0     0 RETURN     all  --  *      *       0.0.0.0/0            0.
